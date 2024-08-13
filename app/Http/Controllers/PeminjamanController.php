@@ -222,32 +222,7 @@ public function store(Request $request)
         return view('peminjamans.edit', compact('peminjaman', 'bukus', 'users'));
     }
 
-    public function update(Request $request, Peminjaman $peminjaman)
-    {
-        $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'tanggal_pengembalian' => 'nullable|date',
-            'books' => 'required|array',
-            'books.*.id' => 'required|exists:bukus,id',
-            'books.*.jumlah' => 'required|integer|min:1',
-        ]);
 
-        $peminjaman->update([
-            'user_id' => $request->user_id,
-            'tanggal_pengembalian' => $request->tanggal_pengembalian,
-        ]);
-
-        $peminjaman->details()->delete();
-
-        foreach ($request->books as $book) {
-            $peminjaman->details()->create([
-                'buku_id' => $book['id'],
-                'jumlah' => $book['jumlah'],
-            ]);
-        }
-
-        return redirect()->route('peminjaman.index')->with('success', 'Peminjaman berhasil diperbarui.');
-    }
 
     public function destroy(Peminjaman $peminjaman)
     {
