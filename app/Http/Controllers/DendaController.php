@@ -92,21 +92,5 @@ class DendaController extends Controller
         }
     }
 
-    public function update(Request $request)
-    {
-        $request->validate([
-            'peminjaman_id' => 'required|integer|exists:peminjaman,id',
-            'status' => 'required|string',
-        ]);
-
-        $peminjaman = Peminjaman::findOrFail($request->peminjaman_id);
-
-        if ($request->status === 'success') {
-            $peminjaman->denda = 0;
-            $peminjaman->status = 'Lunas'; // Update status peminjaman
-            $peminjaman->save();
-        }
-
-        return response()->json(['success' => true]);
-    }
+   
 }
