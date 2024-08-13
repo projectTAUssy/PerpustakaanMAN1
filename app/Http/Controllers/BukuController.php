@@ -103,7 +103,7 @@ class BukuController extends Controller
         if ($buku->file_buku) {
             Storage::disk('public')->delete($buku->file_buku);
         }
-        
+
         $buku->delete();
         return redirect()->route('bukus.index')->with('success', 'Buku berhasil dihapus.');
     }
